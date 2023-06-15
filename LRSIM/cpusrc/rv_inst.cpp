@@ -1,6 +1,7 @@
-#include <iostream>
-#include <cstdint>
-
+#include "common.h"
+#include "regfile.h"
+#include "rv_inst.h"
+#include "mmio.h"
 using namespace std;
 
 class riscv_inst{
@@ -12,6 +13,7 @@ class riscv_inst{
         int8_t   rs2      ;
 	    int8_t   rd       ;
 	 	int32_t  imm      ;
+		int64_t  pc = ENTRDAAR   ;
 	public:
 
 		void decode (int type, int inst, int r1, int r2, int rdn, int immn){
@@ -21,6 +23,12 @@ class riscv_inst{
 			rs2       = r2   ;
 			rd        = rdn  ;
 			imm       = immn ;
+		}
+		int push_pc(int64_t pc_data){
+			pc = pc_data;
+		}
+		int64_t get_pc(){
+			return pc;
 		}
 
 		int8_t get_type(){
@@ -50,7 +58,11 @@ class riscv_inst{
 		int64_t add (){
 			return get_regdata(rs1) + get_regdata(rs2);
 		}
+};
+
+int ex_once(){
+	riscv_inst riscv;
+	int64_t inst_data ;
+	inst_data = inst_read(riscv.get_pc());
+
 }
-
-
-
