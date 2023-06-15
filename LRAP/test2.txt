@@ -1,0 +1,118 @@
+
+target.elf:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000080000000 <_start>:
+    80000000:	00000413          	li	s0,0
+    80000004:	00000117          	auipc	sp,0x0
+    80000008:	09413103          	ld	sp,148(sp) # 80000098 <_GLOBAL_OFFSET_TABLE_+0x8>
+    8000000c:	048000ef          	jal	ra,80000054 <_trm_init>
+
+0000000080000010 <main>:
+    80000010:	ff010113          	addi	sp,sp,-16
+    80000014:	00813423          	sd	s0,8(sp)
+    80000018:	01010413          	addi	s0,sp,16
+    8000001c:	00000793          	li	a5,0
+    80000020:	00078513          	mv	a0,a5
+    80000024:	00813403          	ld	s0,8(sp)
+    80000028:	01010113          	addi	sp,sp,16
+    8000002c:	00008067          	ret
+
+0000000080000030 <halt>:
+    80000030:	fe010113          	addi	sp,sp,-32
+    80000034:	00813c23          	sd	s0,24(sp)
+    80000038:	02010413          	addi	s0,sp,32
+    8000003c:	00050793          	mv	a5,a0
+    80000040:	fef42623          	sw	a5,-20(s0)
+    80000044:	fec42783          	lw	a5,-20(s0)
+    80000048:	00078513          	mv	a0,a5
+    8000004c:	00100073          	ebreak
+    80000050:	0000006f          	j	80000050 <halt+0x20>
+
+0000000080000054 <_trm_init>:
+    80000054:	fe010113          	addi	sp,sp,-32
+    80000058:	00113c23          	sd	ra,24(sp)
+    8000005c:	00813823          	sd	s0,16(sp)
+    80000060:	02010413          	addi	s0,sp,32
+    80000064:	00000517          	auipc	a0,0x0
+    80000068:	02450513          	addi	a0,a0,36 # 80000088 <mainargs>
+    8000006c:	fa5ff0ef          	jal	ra,80000010 <main>
+    80000070:	00050793          	mv	a5,a0
+    80000074:	fef42623          	sw	a5,-20(s0)
+    80000078:	fec42783          	lw	a5,-20(s0)
+    8000007c:	00078513          	mv	a0,a5
+    80000080:	fb1ff0ef          	jal	ra,80000030 <halt>
+
+Disassembly of section .rodata:
+
+0000000080000088 <mainargs>:
+	...
+
+Disassembly of section .got:
+
+0000000080000090 <_GLOBAL_OFFSET_TABLE_>:
+	...
+    80000098:	9000                	.2byte	0x9000
+    8000009a:	8000                	.2byte	0x8000
+    8000009c:	0000                	unimp
+	...
+
+Disassembly of section .got.plt:
+
+00000000800000a0 <.got.plt>:
+    800000a0:	ffff                	.2byte	0xffff
+    800000a2:	ffff                	.2byte	0xffff
+    800000a4:	ffff                	.2byte	0xffff
+    800000a6:	ffff                	.2byte	0xffff
+	...
+
+Disassembly of section .comment:
+
+0000000000000000 <.comment>:
+   0:	3a434347          	fmsub.d	ft6,ft6,ft4,ft7,rmm
+   4:	2820                	fld	fs0,80(s0)
+   6:	6255                	lui	tp,0x15
+   8:	6e75                	lui	t3,0x1d
+   a:	7574                	ld	a3,232(a0)
+   c:	3120                	fld	fs0,96(a0)
+   e:	2e31                	addiw	t3,t3,12 # 1d00c <_entry_offset+0x1d00c>
+  10:	2d302e33          	.4byte	0x2d302e33
+  14:	7531                	lui	a0,0xfffec
+  16:	7562                	ld	a0,56(sp)
+  18:	746e                	ld	s0,248(sp)
+  1a:	3175                	addiw	sp,sp,-3
+  1c:	327e                	fld	ft4,504(sp)
+  1e:	2e32                	fld	ft8,264(sp)
+  20:	3430                	fld	fa2,104(s0)
+  22:	312e                	fld	ft2,232(sp)
+  24:	2029                	.2byte	0x2029
+  26:	3131                	addiw	sp,sp,-20
+  28:	332e                	fld	ft6,232(sp)
+  2a:	302e                	fld	ft0,232(sp)
+	...
+
+Disassembly of section .riscv.attributes:
+
+0000000000000000 <.riscv.attributes>:
+   0:	3241                	addiw	tp,tp,-16 # 14ff0 <_entry_offset+0x14ff0>
+   2:	0000                	unimp
+   4:	7200                	ld	s0,32(a2)
+   6:	7369                	lui	t1,0xffffa
+   8:	01007663          	bgeu	zero,a6,14 <_entry_offset+0x14>
+   c:	0028                	addi	a0,sp,8
+   e:	0000                	unimp
+  10:	7205                	lui	tp,0xfffe1
+  12:	3676                	fld	fa2,376(sp)
+  14:	6934                	ld	a3,80(a0)
+  16:	7032                	.2byte	0x7032
+  18:	5f30                	lw	a2,120(a4)
+  1a:	326d                	addiw	tp,tp,-5 # fffffffffffe0ffb <_end+0xffffffff7ffd7ffb>
+  1c:	3070                	fld	fa2,224(s0)
+  1e:	615f 7032 5f30      	.byte	0x5f, 0x61, 0x32, 0x70, 0x30, 0x5f
+  24:	3266                	fld	ft4,120(sp)
+  26:	3070                	fld	fa2,224(s0)
+  28:	645f 7032 5f30      	.byte	0x5f, 0x64, 0x32, 0x70, 0x30, 0x5f
+  2e:	30703263          	.4byte	0x30703263
+	...
