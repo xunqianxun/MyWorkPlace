@@ -9,6 +9,9 @@
 
 #include <iostream>
 
+#define TURE  1
+#define FALSE 0
+
 //Log information using 
 #define log_out(data) std::cout << "\033[31m" << data << "\033[0m" << std::endl;
 

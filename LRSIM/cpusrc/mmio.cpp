@@ -20,11 +20,18 @@ int load_file(char* path){
 
     return 0;	
 }
+int32_t vector_read(int32_t start_addr){
+    int32_t ret_32inst;
+    for (int i = 0; i < 4; i++) {
+        ret_32inst |= static_cast<int32_t>(memory[start_addr + i]) << (8 * i);
+    }
+    return ret_32inst;
+}
 
-int64_t inst_read(int32_t inst_data){
-	if(inst_data < MEMSTART)
+int32_t inst_read(int32_t inst_addr){
+	if(inst_addr < MEMSTART)
 		log_out("Instruction address out of bounds!!");
-	return memory[ADDR(inst_data)];
+	return vector_read(ADDR(inst_addr));
 }
 
 int write_all(int32_t write_addr, int64_t write_date){
