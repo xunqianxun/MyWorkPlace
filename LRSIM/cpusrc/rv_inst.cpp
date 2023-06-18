@@ -36,7 +36,7 @@ class riscv_inst{
 			return pc;
 		}
 
-		int8_t get_type(){
+		int32_t get_type(){
 			return inst_type;
 		}
 
@@ -44,23 +44,21 @@ class riscv_inst{
 			return inst_num;
 		}
 
-		int8_t get_rs1(){
+		int32_t get_rs1(){
 			return rs1;
 		}
 		
-		int8_t get_rs2(){
+		int32_t get_rs2(){
 			return rs2;
 		}
 
-		int8_t get_rd(){
+		int32_t get_rd(){
 			return rd;
 		}
 
 		int32_t get_imm(){
 			return imm;
 		}
-
-
 };
 
 
@@ -81,13 +79,13 @@ int decode_inst(int32_t inst_data, int64_t pc, int32_t* inst_tpye, \
 				int32_t*inst_num, int32_t* rs1, int64_t* pc_n,     \
 			    int32_t* rs2, int32_t* rd, int32_t*imm){
 	bool end_decode = TURE;
-	int8_t inst_name = ADD;
+	int32_t inst_name = ADD;
 	while (end_decode){
 	
 		switch (inst_name)
 		{
 		case ADD: if(inst_db(inst_data, add_inst)){
-					*inst_tpye = TYPE_I;
+					*inst_tpye = ADD;
 					*inst_num  = inst_data;
 					*rs1       = inst_data & RS1_MASK;
 					*rs2       = inst_data & RS2_MASK;
@@ -114,6 +112,16 @@ int ex_once(){
 	int32_t inst_data ;
 	inst_data = inst_read(riscv.get_pc());
 	decode_inst(inst_data, riscv.get_pc(), &type, &number, &rs1, &next_pc, &rs2, &rd, &imm);
-	riscv.decode();
+	riscv.decode(type, number, rs1, rs2, rd, imm);
+	switch (riscv.get_type())
+	{
+	case ADD:
+			 push_regdata(riscv.get_rd(), get_regdata(riscv.get_rs1()) + get_regdata(riscv.get_rs2()));
+			 riscv.push_pc(next_pc);
+		break;
+	
+	default:
+		break;
+	}
 
 }

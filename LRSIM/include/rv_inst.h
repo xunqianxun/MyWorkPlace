@@ -3,8 +3,8 @@
 
 #define NEXT_PCADD 4
 
-#define ADD  0b00000001
-#define ADDI 0b00000010
+#define ADD  1
+#define ADDI 2
 
 #define ENTRDAAR 0x80000000
 #define TYPE_I 1
